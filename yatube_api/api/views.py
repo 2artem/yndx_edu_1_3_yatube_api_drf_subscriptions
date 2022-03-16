@@ -2,7 +2,9 @@ from django.shortcuts import get_object_or_404
 from django.core.exceptions import PermissionDenied
 from rest_framework import viewsets
 from rest_framework import status
+from rest_framework import filters
 from rest_framework.response import Response
+from rest_framework.pagination import LimitOffsetPagination
 from posts.models import Post
 from posts.models import Group
 from posts.models import Comment
@@ -11,12 +13,14 @@ from .serializers import PostSerializer
 from .serializers import GroupSerializer
 from .serializers import CommentSerializer
 from .serializers import FollowSerializer
+from rest_framework import permissions
 
 
 class PostViewSet(viewsets.ModelViewSet):
     """Предустановленный класс для работы с моделью Post."""
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    pagination_class = LimitOffsetPagination
 
     def perform_create(self, serializer):
         """Переопределяем метод perform_create."""
@@ -30,7 +34,6 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def perform_destroy(self, instance):
         """Переопределяем метод perform_destroy."""
-        #  Переопределяем стандартный метод
         if instance.author != self.request.user:
             raise PermissionDenied('Изменение чужого контента запрещено!')
         instance.delete()
@@ -43,10 +46,28 @@ class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = GroupSerializer
 
 
-class FollowViewSet(viewsets.ReadOnlyModelViewSet):#вопрос по вью
+class FollowViewSet(viewsets.ModelViewSet):
     """Предустановленный класс для работы с моделью Follow."""
-    queryset = Follow.objects.all()
     serializer_class = FollowSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('^following__username',)
+
+    def get_queryset(self):
+        """Изменяем базовый QuerySet, переопределив метод get_queryset."""
+        new_qweryset = Follow.objects.filter(user=self.request.user)
+        return new_qweryset
+
+    def perform_update(self, serializer):
+        """Переопределяем стандартный метод perform_update."""
+        raise PermissionDenied('METHOD NOT ALLOWED')
+
+    def perform_destroy(self, instance):
+        """Переопределяем стандартный метод perform_destroy."""
+        raise PermissionDenied('METHOD NOT ALLOWED')
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
 class CommentViewSet(viewsets.ModelViewSet):
@@ -61,7 +82,6 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     def perform_destroy(self, instance):
         """Переопределяем стандартный метод perform_destroy."""
-        #  Переопределяем стандартный метод
         if instance.author != self.request.user:
             raise PermissionDenied('Изменение чужого контента запрещено!')
         instance.delete()
