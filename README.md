@@ -13,6 +13,7 @@
 
 Получить список всех публикаций. 
 `GET http://127.0.0.1:8000/api/v1/posts/`
+
 	{
 		"count": 123,
 		"next": "http://api.example.org/accounts/?offset=400&limit=100",
