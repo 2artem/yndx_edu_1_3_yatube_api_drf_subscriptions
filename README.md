@@ -1,6 +1,11 @@
-# API_final_yatube
+# Социальная сеть Yatube (платформа для публикаций постов, блог)
 
 (api_final_yatube - спринт 9)
+
+## Ссылка на начальный проект:
+
+https://github.com/2artem/yndx_edu_1_1_yatube_web_django
+
 
 ## Описание
 
