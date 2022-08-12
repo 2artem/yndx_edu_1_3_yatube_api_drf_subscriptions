@@ -59,20 +59,13 @@ https://github.com/2artem/yndx_edu_1_1_yatube_web_django
 Клонировать репозиторий и перейти в него в командной строке:
 
 ```
-git clone https://github.com/2artem/api_final_yatube.git
-```
-
-```
-cd api_final_yatube
+git clone git@github.com:2artem/yndx_edu_1_3_yatube_api_drf_subscriptions.git
 ```
 
 Cоздать и активировать виртуальное окружение:
 
 ```
 python3 -m venv venv
-```
-
-```
 source venv/bin/activate
 ```
 
@@ -85,6 +78,13 @@ python3 -m pip install --upgrade pip
 ```
 pip install -r requirements.txt
 ```
+
+Перейти в каталог с файлом manage.py
+
+```
+cd yatube_api/
+```
+
 
 Выполнить миграции:
 
