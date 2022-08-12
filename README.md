@@ -28,6 +28,10 @@ https://github.com/2artem/yndx_edu_1_1_yatube_web_django
 
 По адресу http://127.0.0.1:8000/redoc/ будет доступна документация для API Yatube в формате Redoc.
 
+<div id="header" align="center">
+  <img src="https://64.media.tumblr.com/db8e1537c7bad018b90a991e9dbb97a1/4b1c981836c410cf-4f/s2048x3072/a1fe7a9bf9a7c5da33c6b55864adeba17ba2376e.pnj"/>
+</div>
+
 ### Пример обработки запроса
 
 Получение публикаций. При указании параметров limit и offset выдача работает с пагинацией.
